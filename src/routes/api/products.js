@@ -2,10 +2,19 @@ const express = require("express");
 const router = express.Router();
 const { products: ctrl } = require("../../controllers");
 const { joiSchema, ratingJoiSchema } = require("../../models/product");
-const { validationBody, ctrlWrapper } = require("../../middlewares");
+const {
+  validationBody,
+  ctrlWrapper,
+  authenticate,
+} = require("../../middlewares");
 
-router.get("/", ctrlWrapper(ctrl.getAll));
-router.post("/", validationBody(joiSchema), ctrlWrapper(ctrl.add));
+router.get("/", authenticate, ctrlWrapper(ctrl.getAll));
+router.post(
+  "/",
+  authenticate,
+  validationBody(joiSchema),
+  ctrlWrapper(ctrl.add)
+);
 router.get("/:id", ctrlWrapper(ctrl.getById));
 router.put("/:id", validationBody(joiSchema), ctrlWrapper(ctrl.updateById));
 router.delete("/:id", ctrlWrapper(ctrl.removeById));

@@ -19,6 +19,10 @@ const userSchema = Schema(
       unique: true,
       match: codeRegexp,
     },
+    token: {
+      type: String,
+      default: null,
+    },
   },
   { versionKey: false, timestamps: true }
 );

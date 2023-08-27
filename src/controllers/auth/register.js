@@ -18,6 +18,7 @@ const register = async (req, res) => {
     status: "created",
     code: 201,
     user: {
+      id: newUser._id,
       name: newUser.name,
       email: newUser.email,
     },

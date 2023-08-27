@@ -8,7 +8,7 @@ const {
   authenticate,
 } = require("../../middlewares");
 
-router.get("/", authenticate, ctrlWrapper(ctrl.getAll));
+router.get("/", ctrlWrapper(ctrl.getAll));
 router.post(
   "/",
   authenticate,

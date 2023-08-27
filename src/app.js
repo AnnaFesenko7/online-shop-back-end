@@ -7,10 +7,14 @@ const usersRouter = require("./routes/api/users");
 
 const app = express();
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../src/swagger.json");
+
 app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/auth", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/users", usersRouter);
@@ -25,3 +29,31 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+
+const mail = {
+  to: "annafecenko7@gmail.com",
+  from: "annafesenko7@meta.ua",
+  subject: "mail for registration",
+  html: "<p>click here for registration</p>",
+};
+
+const nodemailer = require("nodemailer");
+const { META_PASSWORD } = process.env;
+const nodemailerConfig = {
+  host: "smtp.meta.ua",
+  port: 465, // 25, 465, 2255
+  secure: true,
+  auth: {
+    user: "annafesenko7@meta.ua",
+    pass: META_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+};
+const transporter = nodemailer.createTransport(nodemailerConfig);
+
+transporter
+  .sendMail(mail)
+  .then(() => console.log("Verification email sent"))
+  .catch((error) => console.log(error.message));

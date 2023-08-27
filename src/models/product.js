@@ -6,6 +6,10 @@ const productSchema = Schema(
       type: String,
       required: true,
     },
+    brand: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
@@ -26,6 +30,7 @@ const Product = model("product", productSchema);
 
 const joiSchema = Joi.object({
   name: Joi.string().required(),
+  brand: Joi.string().required(),
   price: Joi.number().min(0.01).required(),
   rating: Joi.number().min(0.01),
 });

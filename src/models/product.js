@@ -1,8 +1,17 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+const path = require("path");
+
+const defaultImgUrl = path.join(
+  __dirname,
+  "../../",
+  "product",
+  "Rectangle.jpg"
+);
+
 const productSchema = Schema(
   {
-    name: {
+    productName: {
       type: String,
       required: true,
     },
@@ -14,12 +23,28 @@ const productSchema = Schema(
       type: Number,
       required: true,
     },
-    rating: {
-      type: Number,
+    image: {
+      type: String,
+      default: defaultImgUrl,
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
+    category: {
+      type: String,
+      required: true,
+    },
+    subcategory: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    createdFor: {
+      type: Array,
+      required: true,
+    },
+    tags: {
+      type: Array,
       required: true,
     },
   },
@@ -29,16 +54,18 @@ const productSchema = Schema(
 const Product = model("product", productSchema);
 
 const joiSchema = Joi.object({
-  name: Joi.string().required(),
+  productName: Joi.string().required(),
   brand: Joi.string().required(),
   price: Joi.number().min(0.01).required(),
-  rating: Joi.number().min(0.01),
+  image: Joi.any(),
+  category: Joi.string().required(),
+  subcategory: Joi.string().required(),
+  description: Joi.string().required(),
+  createdFor: Joi.any().required(),
+  tags: Joi.array().required(),
 });
-const ratingJoiSchema = Joi.object({
-  rating: Joi.number().min(0.01).required(),
-});
+
 module.exports = {
   Product,
   joiSchema,
-  ratingJoiSchema,
 };

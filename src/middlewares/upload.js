@@ -3,12 +3,12 @@ const path = require("path");
 require("dotenv").config();
 const sharp = require("../../");
 
-const tempDir = path.join(__dirname, "../../", process.env.UPLOAD_DIR);
+const tempDir = path.join(process.cwd(), process.env.UPLOAD_DIR);
 
 const multerConfig = multer.diskStorage({
   destination: tempDir,
-  filename: (reg, file, cb) => {
-    cb(null, "image.jpg");
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   },
 });
 

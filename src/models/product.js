@@ -2,12 +2,7 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const path = require("path");
 
-const defaultImgUrl = path.join(
-  __dirname,
-  "../../",
-  "product",
-  "Rectangle.jpg"
-);
+const defaultImgUrl = path.join(process.cwd(), "product", "Rectangle.jpg");
 
 const productSchema = Schema(
   {
@@ -24,8 +19,8 @@ const productSchema = Schema(
       required: true,
     },
     image: {
-      type: String,
-      default: defaultImgUrl,
+      type: Object,
+      default: { url: defaultImgUrl },
     },
     category: {
       type: String,

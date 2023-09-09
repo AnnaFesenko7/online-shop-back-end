@@ -57,7 +57,7 @@ const add = async (req, res) => {
 
   const product = await Product.create({
     ...req.body,
-    image: image,
+    productImage: image,
   });
   res.status(201).json({
     status: "success",

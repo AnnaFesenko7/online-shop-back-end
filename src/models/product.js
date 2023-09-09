@@ -18,7 +18,7 @@ const productSchema = Schema(
       type: Number,
       required: true,
     },
-    image: {
+    productImage: {
       type: Object,
       default: { url: defaultImgUrl },
     },

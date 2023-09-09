@@ -8,7 +8,8 @@ const getAll = async (req, res) => {
   //   skip,
   //   limit: Number(limit),
   // }).populate("owner", "_id name email");
-  const products = await Product.find({}, "", { skip, limit: Number(limit) });
+  // const products = await Product.find({}, "", { skip, limit: Number(limit) });
+  const products = await Product.find({});
   res.status(200).json({
     status: "success",
     code: 200,

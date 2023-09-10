@@ -12,6 +12,7 @@ const { CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =
 
 const add = async (req, res) => {
   console.log(req.file);
+  console.log(req.body);
 
   cloudinary.config({
     cloud_name: CLOUDINARY_NAME,

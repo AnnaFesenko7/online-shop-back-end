@@ -20,7 +20,6 @@ const productSchema = Schema(
     },
     productImage: {
       type: Object,
-      default: { url: defaultImgUrl },
     },
     category: {
       type: String,
@@ -56,7 +55,7 @@ const joiSchema = Joi.object({
   category: Joi.string().required(),
   subcategory: Joi.string().required(),
   description: Joi.string().required(),
-  createdFor: Joi.any().required(),
+  createdFor: Joi.array().required(),
   tags: Joi.array().required(),
 });
 

@@ -13,7 +13,7 @@ router.get("/", ctrlWrapper(ctrl.getAll));
 router.post(
   "/",
   upload.single("image"),
-  validationBody(joiSchema),
+  // validationBody(joiSchema),
   ctrlWrapper(ctrl.add)
 );
 router.get("/:id", ctrlWrapper(ctrl.getById));

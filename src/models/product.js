@@ -51,7 +51,7 @@ const joiSchema = Joi.object({
   productName: Joi.string().required(),
   brand: Joi.string().required(),
   price: Joi.number().min(0.01).required(),
-  image: Joi.any(),
+  // image: Joi.any(),
   category: Joi.string().required(),
   subcategory: Joi.string().required(),
   description: Joi.string().required(),

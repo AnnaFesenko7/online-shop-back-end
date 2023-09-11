@@ -11,7 +11,10 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:4040/api" }],
+  "servers": [
+    { "url": "http://localhost:4040/api" },
+    { "url": "https://online-shop-1sss.onrender.com/api" }
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -193,6 +196,7 @@
         }
       }
     },
+
     "/products": {
       "post": {
         "tags": ["Products"],
@@ -200,10 +204,10 @@
         "parameters": [],
 
         "requestBody": {
-          "description": "product's post object",
+          "description": "Product's object",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PostProductRequest"
               }
@@ -564,12 +568,21 @@
 
       "PostProductRequest": {
         "type": "object",
-        "required": ["name", "brand", "price"],
+        "required": [
+          "name",
+          "brand",
+          "price",
+          "category",
+          "subcategory",
+          "description",
+          "createdFor",
+          "tags"
+        ],
         "properties": {
-          "name": {
+          "productName": {
             "type": "string",
             "description": "Product's name",
-            "example": "Lipstick"
+            "example": "Eyeshadow"
           },
           "brand": {
             "type": "string",
@@ -581,10 +594,34 @@
             "description": "price of product",
             "example": 250
           },
-          "rating": {
-            "type": "integer",
-            "description": "Product's rating",
-            "example": 5
+          "category": {
+            "type": "string",
+            "description": "Product's category",
+            "example": "make-up"
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Product's subcategory",
+            "example": "eyes"
+          },
+          "image": {
+            "type": "string",
+            "format": "binary",
+            "description": "Product's image"
+          },
+          "description": {
+            "type": "string",
+            "description": "Product's description",
+            "example": "Тіні для вій з легким перламутровим ефектом. Додають погляду свіжості."
+          },
+          "createdFor": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Gender of the user",
+              "example": "female"
+            },
+            "example": ["female", "male"]
           }
         }
       },
@@ -605,28 +642,43 @@
           "payload": {
             "type": "object",
             "properties": {
-              "book": {
+              "product": {
                 "type": "object",
                 "properties": {
-                  "name": {
+                  "productName": {
                     "type": "string",
-                    "description": "Book's title",
-                    "example": "The Art of War"
+                    "description": "Product's name",
+                    "example": "Lipstick"
                   },
                   "brand": {
                     "type": "string",
                     "description": "Product's brand",
-                    "example": "Sun Tzu"
+                    "example": "Mary Kay"
                   },
                   "price": {
                     "type": "number",
-                    "description": "price of product",
+                    "description": "Price of product",
                     "example": 250
                   },
-                  "rating": {
-                    "type": "integer",
-                    "description": "Product's rating",
-                    "example": 5
+                  "productImage": {
+                    "type": "object",
+                    "properties": {
+                      "asset_id": {
+                        "type": "string",
+                        "description": "Information about saved image",
+                        "example": "03358c7bded71ffa6bee85bb5c7c271a"
+                      },
+                      "public_id": {
+                        "type": "string",
+                        "description": "Information about saved image",
+                        "example": "cosmetics/a2tvuhmhsiljppxybxzo"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Information about saved image",
+                        "example": "http://res.cloudinary.com/dx1mxvew5/image/upload/v1694428628/cosmetics/a2tvuhmhsiljppxybxzo.jpg"
+                      }
+                    }
                   },
 
                   "_id": {
@@ -645,11 +697,39 @@
           "code": 201,
           "payload": {
             "product": {
-              "name": "Lipstick",
+              "productName": "Lipstick",
               "brand": "Mary Kay",
               "price": 250,
-              "rating": 5,
-              "_id": "633b1aae155b3020faa54d9e"
+              "productImage": {
+                "asset_id": "03358c7bded71ffa6bee85bb5c7c271a",
+                "public_id": "cosmetics/a2tvuhmhsiljppxybxzo",
+                "version": 1694428628,
+                "version_id": "c519b39ae1eb1c9a362242d71f5855c0",
+                "signature": "9367002bfe8c9424f513f9fb8e2049c3a696afe1",
+                "width": 640,
+                "height": 491,
+                "format": "jpg",
+                "resource_type": "image",
+                "created_at": "2023-09-11T10:37:08Z",
+                "tags": [],
+                "bytes": 25280,
+                "type": "upload",
+                "etag": "729af264f3bf09d68977be68c947a906",
+                "placeholder": false,
+                "url": "http://res.cloudinary.com/dx1mxvew5/image/upload/v1694428628/cosmetics/a2tvuhmhsiljppxybxzo.jpg",
+                "secure_url": "https://res.cloudinary.com/dx1mxvew5/image/upload/v1694428628/cosmetics/a2tvuhmhsiljppxybxzo.jpg",
+                "folder": "cosmetics",
+                "original_filename": "lipstick-gde9f602b9_640",
+                "api_key": "581754795434256"
+              },
+              "category": "make-up",
+              "subcategory": "lips",
+              "description": "Насичений стійкий колір. Найвдаліший вибір в цьому сезоні",
+              "createdFor": ["female"],
+              "tags": ["lipstick", "cosmetics", " make up"],
+              "_id": "64feedd58b37c6ef7dea95ba",
+              "createdAt": "2023-09-11T10:37:09.426Z",
+              "updatedAt": "2023-09-11T10:37:09.426Z"
             }
           }
         }
@@ -734,475 +814,6 @@
               }
             ]
           }
-        }
-      },
-
-      "GetBookByIdResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "success",
-            "example": "Success"
-          },
-          "code": {
-            "type": "integer",
-            "description": "code",
-            "example": 200
-          },
-          "payload": {
-            "type": "object",
-            "properties": {
-              "book": {
-                "properties": {
-                  "_id": {
-                    "type": "string",
-                    "description": "id of the book",
-                    "example": "633430de05d976545f184b08"
-                  },
-                  "title": {
-                    "type": "string",
-                    "description": "Book's title",
-                    "example": "The Art of War"
-                  },
-                  "author": {
-                    "type": "string",
-                    "description": "Book's author",
-                    "example": "Sun Tzu"
-                  },
-                  "year": {
-                    "type": "integer",
-                    "description": "year of publication",
-                    "example": 1974
-                  },
-                  "pages": {
-                    "type": "integer",
-                    "description": "pages in book",
-                    "example": 100
-                  },
-                  "status": {
-                    "type": "string",
-                    "description": "curreny status of the book",
-                    "example": "toRead"
-                  },
-                  "rating": {
-                    "type": "integer",
-                    "description": "rating of the book",
-                    "example": 0
-                  },
-                  "resume": {
-                    "type": "string",
-                    "description": "resume",
-                    "example": ""
-                  },
-                  "owner": {
-                    "type": "string",
-                    "description": "owner's (user's) id",
-                    "example": "6331e0bd7d50cafaf02cf8c8"
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "example": {
-          "status": "Success",
-          "code": 200,
-          "payload": {
-            "book": {
-              "_id": "64e0b271bb5344e5ed6f647c",
-              "title": "The Art of War",
-              "author": "Sun Tzu",
-              "year": 1974,
-              "pages": 100,
-              "status": "toRead",
-              "rating": 0,
-              "resume": "",
-              "owner": "64e0499caf142ceacd19aacb"
-            }
-          }
-        }
-      },
-
-      "DeleteBookByIdResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "success",
-            "example": "Success"
-          }
-        },
-
-        "example": {
-          "status": "Success"
-        }
-      },
-
-      "PutStatusResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "succses",
-            "example": "Succses"
-          }
-        },
-
-        "example": {
-          "status": "Succses"
-        }
-      },
-
-      "PutStatusRequest": {
-        "type": "object",
-        "required": ["status"],
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "new status of the book",
-            "example": "reading"
-          }
-        }
-      },
-
-      "PutResumeResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "succses",
-            "example": "Succses"
-          }
-        },
-
-        "example": {
-          "status": "Succses"
-        }
-      },
-
-      "PutResumeRequest": {
-        "type": "object",
-        "required": ["status"],
-        "properties": {
-          "resume": {
-            "type": "string",
-            "description": "new resume of the book",
-            "example": "exciting book, that blow my mind"
-          },
-
-          "rating": {
-            "type": "integer",
-            "description": "new rating of the book",
-            "example": 4
-          }
-        }
-      },
-
-      "PutEditRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "Book's title",
-            "example": "The Art of War"
-          },
-          "author": {
-            "type": "string",
-            "description": "Book's author",
-            "example": "Sun Tzu"
-          },
-          "year": {
-            "type": "integer",
-            "description": "year of publication",
-            "example": 1974
-          },
-          "pages": {
-            "type": "integer",
-            "description": "pages in book",
-            "example": 100
-          }
-        }
-      },
-
-      "PutEditResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "succses",
-            "example": "Succses"
-          },
-          "code": {
-            "type": "integer",
-            "description": "code",
-            "example": 200
-          },
-          "payload": {
-            "type": "object",
-            "properties": {
-              "book": {
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Book's title",
-                    "example": "The Art of War"
-                  },
-                  "author": {
-                    "type": "string",
-                    "description": "Book's author",
-                    "example": "Sun Tzu"
-                  },
-                  "year": {
-                    "type": "integer",
-                    "description": "year of publication",
-                    "example": 1974
-                  },
-                  "pages": {
-                    "type": "integer",
-                    "description": "pages in book",
-                    "example": 100
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "example": {
-          "status": "Succses",
-          "code": 200,
-          "payload": {
-            "book": {
-              "_id": "633430de05d976545f184b08",
-              "title": "The Art of War",
-              "author": "Sun Tzu",
-              "year": 1974,
-              "pages": 100,
-              "rating": 0,
-              "status": "toRead",
-              "owner": "6331e0bd7d50cafaf02cf8c8"
-            }
-          }
-        }
-      },
-
-      "PostTrainingRequest": {
-        "type": "object",
-        "required": ["startDate", "finishDate", "books"],
-        "properties": {
-          "startDate": {
-            "type": "date-time",
-            "description": "when the training start's",
-            "example": "2022-10-21T17:32:28Z"
-          },
-          "finishDate": {
-            "type": "date-time",
-            "description": "when the training end's",
-            "example": "2022-10-27T17:32:28Z"
-          },
-          "books": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "id of the book",
-                  "example": "633430de05d976545f184b08"
-                }
-              }
-            }
-          }
-        }
-      },
-
-      "TrainingResponse": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "id of the training",
-            "example": "63333edbe0608187191dc8f4"
-          },
-          "startDate": {
-            "type": "date-time",
-            "description": "when the training start's",
-            "example": "2022-10-21T17:32:28Z"
-          },
-          "finishDate": {
-            "type": "date-time",
-            "description": "when the training end's",
-            "example": "2022-10-27T17:32:28Z"
-          },
-          "books": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "id of the book",
-                  "example": "633430de05d976545f184b08"
-                },
-                "pages": {
-                  "type": "intager",
-                  "description": "number of pages",
-                  "example": 100
-                },
-                "status": {
-                  "type": "string",
-                  "description": "status of the book",
-                  "example": "reading"
-                }
-              }
-            }
-          },
-
-          "completed": {
-            "type": "boolean",
-            "description": "if the book is completed",
-            "example": false
-          },
-          "owner": {
-            "type": "string",
-            "description": "id of the user",
-            "example": "6331e0bd7d50cafaf02cf8c8"
-          },
-          "results": {
-            "type": "array",
-            "description": "array of results",
-            "example": []
-          }
-        },
-
-        "example": {
-          "_id": "63333edbe0608187191dc8f4",
-          "startDate": "2022-09-28T17:32:28.000Z",
-          "finishDate": "2022-09-30T17:32:28.000Z",
-          "books": [
-            {
-              "_id": "633430de05d976545f184b08",
-              "pages": 100,
-              "status": "reading"
-            }
-          ],
-          "completed": false,
-          "owner": "6331e0bd7d50cafaf02cf8c8",
-          "results": []
-        }
-      },
-
-      "PatchTrainingRequest": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "date-time",
-            "description": "when the pages was read",
-            "example": "2022-10-21T17:32:28Z"
-          },
-          "pages": {
-            "type": "integer",
-            "description": "number of pages",
-            "example": 20
-          }
-        }
-      },
-
-      "PatchTrainingResponse": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "id of the training",
-            "example": "63333edbe0608187191dc8f4"
-          },
-          "startDate": {
-            "type": "date-time",
-            "description": "when the training start's",
-            "example": "2022-10-21T17:32:28Z"
-          },
-          "finishDate": {
-            "type": "date-time",
-            "description": "when the training end's",
-            "example": "2022-10-27T17:32:28Z"
-          },
-
-          "books": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "ObjectId",
-                  "description": "id of the book",
-                  "example": "ObjectId(633070c1ba4415bbf6e640a0)"
-                },
-                "status": {
-                  "type": "string",
-                  "description": "status of the book",
-                  "example": "reading"
-                }
-              }
-            }
-          },
-
-          "completed": {
-            "type": "boolean",
-            "description": "if the book is completed",
-            "example": false
-          },
-          "owner": {
-            "type": "string",
-            "description": "id of the user",
-            "example": "6331e0bd7d50cafaf02cf8c8"
-          },
-          "results": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "id of the stats",
-                  "example": "633070c1ba4415bbf6e640a0"
-                },
-                "date": {
-                  "type": "date-time",
-                  "description": "when the pages was read",
-                  "example": "2022-10-21T17:32:28Z"
-                },
-                "pages": {
-                  "type": "integer",
-                  "description": "number of pages",
-                  "example": 20
-                }
-              }
-            }
-          }
-        },
-
-        "example": {
-          "_id": "63333edbe0608187191dc8f4",
-          "startDate": "2022-09-26T10:32:28.000Z",
-          "finishDate": "2022-09-30T17:32:28.000Z",
-          "books": [
-            {
-              "_id": "6331fa40c8e0d7f99f18745a",
-              "pages": 100,
-              "status": "reading"
-            }
-          ],
-          "completed": false,
-          "owner": "6331e0bd7d50cafaf02cf8c8",
-          "results": [
-            {
-              "date": "2022-09-27T11:32:28.000Z",
-              "pages": 20,
-              "_id": "633429f4b05410a6b33fcc1d"
-            }
-          ]
         }
       }
     },

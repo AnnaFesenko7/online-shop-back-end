@@ -18,7 +18,7 @@ router.post(
 );
 router.get("/:id", ctrlWrapper(ctrl.getById));
 router.put("/:id", validationBody(joiSchema), ctrlWrapper(ctrl.updateById));
-// router.delete("/:id", ctrlWrapper(ctrl.removeById));
+router.delete("/:id", ctrlWrapper(ctrl.removeById));
 // router.patch(
 //   "/:id/rating",
 //   validationBody(ratingJoiSchema),

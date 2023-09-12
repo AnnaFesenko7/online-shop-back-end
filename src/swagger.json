@@ -329,7 +329,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteProductByIdResponse"
+                  "$ref": "#/components/schemas/PostProductResponse"
                 }
               }
             }
